@@ -10,7 +10,535 @@
 	
 	
 
-	<link rel="stylesheet" href="style.css">
+	<style>
+		:root
+    {
+        --bg-black-100:#353535;
+        --bg-black-50:#eef0f4;
+        --bg-black-20:#414546;
+    }
+    *
+    {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body
+    {
+            
+    }
+    body.dark 
+    {
+        --bg-black-100:#fff;
+        --bg-black-50:#000;
+        --bg-black-20:#eef0f4;
+    }
+    .menu
+    {
+        position: fixed;
+        width: 60px;
+        max-height: 350px;
+        background-color: var(--bg-black-50);
+        z-index: 2;
+        top: 0;
+        bottom: 0;
+        left: 20px;
+        margin: auto;
+        border-radius: 0.8rem;
+        transition: 0.3s ease 0.15s;
+        font-family: sans-serif;
+		
+		
+		-webkit-box-shadow: 0px 0px 13px 3px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 13px 3px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 13px 3px rgba(0,0,0,0.75);
+		
+    }
+    .menu.open
+    {
+        width: 240px;
+    }
+    .menu a 
+    {
+        text-decoration: none;
+    }
+    .menu .actionbar
+    {
+        width: 100%;
+        height: 10%;
+        padding: 0.5rem;
+        overflow: hidden;
+    }
+    .menu .actionbar div 
+    {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        border-radius: 0.5rem;
+        transition: 0.3s ease;
+    }
+    .menu .actionbar div button
+    {
+        background-color: transparent;
+        outline: none;
+        border: none;
+        border-radius: 0.5rem;
+        color: var(--bg-black-100);
+        width: 45px;
+        height: 45px;
+        transition: 0.3s ease;
+        font-size: 1rem;
+    }
+    .menu .actionbar div button:hover
+    {
+        background-color: rgb(132,0,255);
+    }
+    .menu .actionbar div h3
+    {
+        width: calc(100% - 45px);
+        text-align: center;
+    }
+    .menu .optionsBar
+    {
+        overflow: hidden;
+        display: flex;
+        width: 100%;
+        padding: 0 0.5rem;
+        align-items: center;
+        flex-direction: column;
+    }
+    .menu .optionsBar .menuItem
+    {
+        width: 100%;
+        height: 45px;
+        margin: 0.3rem;
+    }
+    .menu .optionsBar .menuItem .menuOption
+    {
+        font-size: 1rem;
+        outline: none;
+        border: none;
+        background-color: transparent;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        border-radius: 0.5rem;
+        transition: 0.3s ease;
+    }
+    .menu .optionsBar .menuItem .menuOption:hover
+    {
+        background-color: rgb(132,0,255);
+    }
+    .menu .optionsBar .menuItem .menuOption i 
+    {
+        width: 45px;
+        text-align: center;
+        color: var(--bg-black-100);
+    }
+    .menu .optionsBar .menuItem .menuOption h5
+    {
+        width: calc(100% - 45px);
+		text-align: start;
+    }
+    .menuText
+    {
+        color: var(--bg-black-20);
+        transform: translateX(-250px);
+        opacity: 0;
+        transition: transform 0.3s ease 0.1s;
+    }
+    .menuText.open2
+    {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    .menu .menuBreak
+    {
+        width: 100%;
+        height: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .menu .menuBreak hr
+    {
+        width: 50%;
+        height: 3px;
+        background-color: var(--bg-black-100);
+        border: none;
+        border-radius: 5px;
+    }
+    .menu .menuUser
+    {
+        width: 100%;
+        height: 10px;
+        padding: 4.5rem 0 3rem 0;
+    }
+    .menu .menuUser a 
+    {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-decoration: none;
+        padding: 0.5rem;
+        position: relative;
+    }
+    .menu .menuUser a div 
+    {
+        width: 45px;
+        height: 45px;
+        position: relative;
+        border-radius: 0.5rem;
+    }
+    .menu .menuUser a div img 
+    {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 0.5rem;
+    }
+    .menu .menuUser a .Username
+    {
+        width: calc(70% - 45px);
+    }
+    .menu .menuUser a p
+    {
+        width: calc(30% - 45px);
+    }
+    .menu .menuUser a:hover p
+    {
+        animation: animArrow 0.3s ease 2;
+    }
+    @keyframes animArrow
+    {
+        0%
+        {
+            transform: translateX(0);
+        }
+        50%
+        {
+            transform: translateX(5px);
+        }
+        100%
+        {
+            transform: translateX(0);
+        }
+    }
+    .menu .menuUser .userInfo
+    {
+        position: absolute;
+        width: 10rem;
+        height: 8rem;
+        opacity: 0;
+        color: var(--bg-black-50);
+        pointer-events: none;
+        top: 58%;
+        left: 1.5rem;
+        transition: 0.3s ease;
+        transform: scale(0);
+        transform-origin: bottom left;
+    }
+    .menu .menuUser .userInfo div 
+    {
+        position: relative;
+        width: 100%;
+        height: calc(100% - 20px);
+        box-shadow: 0px 0px 40px rgba(0,0,0,0.3);
+        background-color: var(--bg-black-100);
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-direction: column;
+    }
+    .menu .menuUser .userInfo div h1
+    {
+        font-size: 4rem;
+    }
+    .menu .menuUser .userInfo div::before
+    {
+        content: '';
+        position: absolute;
+        bottom: -18px;
+        left: -2px;
+        width: 0;
+        height: 0;
+        border-top: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        border-right: 15px solid var(--bg-black-100);
+        transform: rotate(45deg);
+    }
+    .menu .menuUser:hover .userInfo
+    {
+        pointer-events: all;
+        opacity: 1;
+        transform: scale(1);
+    }
+    .menu .themeBar
+    {
+        overflow: hidden;
+        width: 100%;
+        height: 10%;
+        padding: 0.5rem;
+    }
+    .menu .themeBar div 
+    {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        border-radius: 0.5rem;
+        transition: 0.3s ease;
+    }
+    .menu .themeBar div button
+    {
+        background-color: transparent;
+        outline: none;
+        border: none;
+        border-radius: 0.5rem;
+        color: var(--bg-black-100);
+        width: 100%;
+        height: 45px;
+        transition: 0.3s ease;
+        font-size: 1rem;
+    }
+    .menu .themeBar div button
+    {
+        background-color: rgb(132,0,255);
+    }
+    .menu .optionsBar .menuItem .menuOption:hover .menuText,
+    .menu .optionsBar .menuItem .menuOption:hover i,
+    .menu .actionbar div button:hover i,
+    .menu .themeBar div button:hover i
+    {
+        color: #fff;
+    }
+	
+	@font-face {
+  font-family: AbelRegular;
+  src: url(Abel-Regular.ttf);
+}
+	@font-face {
+  font-family: ShadowsIntoLightRegular;
+  src: url(ShadowsIntoLight-Regular.ttf);
+}
+	@font-face {
+  font-family: RubikRegular;
+  src: url(Rubik/static/Rubik-Regular.ttf);
+}
+	
+	.bodycontainer
+	{
+		display: flex;
+		  flex-direction: column;
+		  min-height: 100vh;
+		background-color:#fff;
+	}
+	.bodycontainer section ul
+	{
+		  list-style-position: inside;
+		  margin-top: 10px;
+	}
+	header
+	{
+		/*background: #fef3c7;*/
+		position:fixed;
+		width:100%;
+		    z-index: 9;
+	}
+	h1
+	{
+		font-size: 5vw;
+    text-align: center;
+    font-family: ShadowsIntoLightRegular;
+    color: #b45309;
+	color: #1a00cf;
+    font-weight: normal;
+	}
+	section
+	{
+		    padding: 90px 50px 0px 115px;
+			font-family: RubikRegular;
+			font-size: calc(20px + (0 * (100vw - 800px)) / 800);
+			color: #474747;
+	}
+	section.intro
+	{
+	text-align: justify;
+	font-family: ShadowsIntoLightRegular;
+	        font-size: 40px;
+    line-height: 1.8;
+	}
+	@media screen and (orientation:portrait) {
+		section
+		{
+			font-size: 2.5vh;
+		}
+	}
+	.red-highlighted {
+        background-color:#ffddd3;
+		position:relative;
+		color:#99585d;
+		padding: 0px 15px;
+      }
+	.warn-highlighted {
+        background-color:#fddad8;
+		position:relative;
+		color:#b4755a;
+		padding: 0px 15px;
+      }
+	.info-highlighted {
+        background-color:#cdeefd;
+		position:relative;
+		color:#1271a4;
+		padding: 0px 15px;
+      }
+	.success-highlighted {
+        background-color:#dcefdc;
+		position:relative;
+		color:#68987f;
+		padding: 0px 15px;
+      }
+	  
+	  
+mark {
+  -webkit-animation: 1.5s highlight 1.5s 1 normal forwards;
+          animation: 1.5s highlight 1.5s 1 normal forwards;
+  background-color: none;
+  background: linear-gradient(90deg, #FFEB3B 50%, rgba(255, 255, 255, 0) 50%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  padding: 0px 15px;
+}
+
+@-webkit-keyframes highlight {
+  to {
+    background-position: 0 0;
+  }
+}
+
+@keyframes highlight {
+  to {
+    background-position: 0 0;
+  }
+}
+
+.meditation
+{
+	position:relative;
+	 display: inline-block;
+}
+.meditation:before {
+    content: url("image/meditating.png");
+    font-family: 'La Belle Aurore',cursive;
+    color: #515152;
+    font-size: 18px;
+    position: absolute;
+        margin-top: -0.4rem;
+    left: 50%;
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.warn-highlighted:before {
+    content: url("image/clumsy.png");
+    font-family: 'La Belle Aurore',cursive;
+    color: #515152;
+    font-size: 18px;
+    position: absolute;
+        margin-top: -0.4rem;
+    left: 50%;
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.success-highlighted:before {
+    content: url("image/sprinting.png");
+    font-family: 'La Belle Aurore',cursive;
+    color: #515152;
+    font-size: 18px;
+    position: absolute;
+        margin-top: -0.4rem;
+    left: 50%;
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.info-highlighted:before {
+    content: url("image/laying.png");
+    font-family: 'La Belle Aurore',cursive;
+    color: #515152;
+    font-size: 18px;
+    position: absolute;
+        margin-top: -0.4rem;
+    left: 50%;
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.project-title
+{
+	position:relative;
+	line-height: 1.5;
+	color: #2196F3;
+	
+}
+.project-title::before{
+  content:'';
+  position: absolute;
+  background-color: #7D18FD;
+  width: 100%;
+  height: 3px;
+      bottom: -10px;
+}
+p, h3{
+	clear:both;
+	margin-top:20px;
+}
+h2
+{
+	margin-top:20px;
+}
+
+h1 span {
+        background-image: url('highlight.png');
+        background-position: 50% 50%;
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-top: 5px;
+        background-repeat: no-repeat;
+            background-size: 100% 100%;
+}
+      
+	  
+	  @media (max-width: 600px) {
+  section.intro {
+        font-size: 20px;
+		line-height: 1.5;
+  }
+  .bodycontainer
+  {
+	  padding-top: 20px;
+  }
+  section
+  {
+	  padding: 30px 20px 0px 100px;
+	  font-size: 1.5vh;
+  }
+  .button
+  {
+	      padding: 0.5em 0.5em;
+		      font-size: 12px;
+			  
+  }
+}
+		</style>
 </head>
 <body>
 <header>
